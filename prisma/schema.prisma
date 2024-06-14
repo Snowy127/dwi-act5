@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Estado {
+  id       Int         @id @default(autoincrement())
+  nombre   String      @unique
+  municipios Municipio[]
+
+}
+
+model Municipio {
+  id        Int         @id @default(autoincrement())
+  nombre    String
+  estadoId  Int
+  estado    Estado      @relation(fields: [estadoId], references: [id])
+  localidades Localidad[]
+
+}
+
+model Localidad {
+  id          Int        @id @default(autoincrement())
+  nombre      String
+  municipioId Int
+  municipio   Municipio  @relation(fields: [municipioId], references: [id])  
+  direcciones Direccion[]
+  
+  @@unique([nombre, municipioId])
+}
+
+model Cliente {
+  id            Int        @id @default(autoincrement())
+  nombre        String
+  apellidos     String
+  rfc           String     @unique
+  email         String     @unique
+  telefono      String
+  estatus       String     @default("activo")  
+  direccion     Direccion?
+}
+
+model Direccion {
+  id            Int        @id @default(autoincrement())
+  clienteId     Int        @unique
+  cliente       Cliente?   @relation(fields: [clienteId], references: [id])
+  localidadId   Int
+  localidad     Localidad  @relation(fields: [localidadId], references: [id])
+  calle         String
+  numeroExterior String
+  numeroInterior String
+  cp            String
+}
