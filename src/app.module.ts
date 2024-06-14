@@ -4,9 +4,10 @@ import { AppService } from './app.service';
 import { LocalidadModule } from './localidad/localidad.module';
 import { ClienteModule } from './cliente/cliente.module';
 import { DireccionModule } from './direccion/direccion.module';
+import { EstadoModule } from './estado/estado.module';
 
 @Module({
-  imports: [LocalidadModule, ClienteModule, DireccionModule],
+  imports: [LocalidadModule, ClienteModule, DireccionModule, EstadoModule],
   controllers: [AppController],
   providers: [AppService],
 })
