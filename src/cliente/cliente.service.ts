@@ -65,7 +65,7 @@ export class ClienteService {
       where
     });
     if (!cliente) {
-      throw new NotFoundException(`Localidad not found`);
+      throw new NotFoundException(`Cliente not found`);
     }
     return cliente
   }
